@@ -1,4 +1,5 @@
 $(function() {
+    
     /*
      * Toggle the View Code widget
      */
@@ -9,7 +10,7 @@ $(function() {
     /*
      * When Next is clicked, switch to next form
      */
-    $("a.next-step").on("click", function(){
+    $("button.next-step").on("click", function(){
         var targetObjectId = "#"+$(this).attr("data-target");
         nextStep(targetObjectId);
         return false;
@@ -91,60 +92,60 @@ $(function() {
     /*
      * Update credentails
      */
-    
-    $("#updateCredential").click(function() {  
+        
+    $("#updateCredential").click(function() {
     	var api_key = $("#api-key").val();
     	var share_secret = $("#share-secret").val();    	
         $.ajax({
-    		type: "GET",
-    		url: "AdminConsoleReadServlet",
-    		cache: false,
-    		data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
-    		success: function(responseText) {
-    			document.getElementById("api-key").value = responseText.apiKey;
-				document.getElementById("share-secret").value = responseText.sharedSecret;
-    		}
-    	}); 
-	});	 
+            type: "GET",
+            url: "AdminConsoleReadServlet",
+            cache: false,
+            data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
+            success: function(responseText) {
+                document.getElementById("api-key").value = responseText.apiKey;
+                document.getElementById("share-secret").value = responseText.sharedSecret;
+            }
+        });
+    });	 
     
     $("#update-credential-form").on("submit", function(){        
     	var api_key = $("#api-key").val();
     	var share_secret = $("#share-secret").val();
         $.ajax({
-    		type: "GET",
-    		url: "AdminConsoleServlet",
-    		data: "apiKey="+api_key+"&sharedSecret="+share_secret,	
-    		cache: false,
-    		success: function(responseText) {
-    			$( "#update-credential-form" ).dialog( "close" );
-    		}
-    	}); 
+            type: "GET",
+            url: "AdminConsoleServlet",
+            data: "apiKey="+api_key+"&sharedSecret="+share_secret,	
+            cache: false,
+            success: function(responseText) {
+                $( "#update-credential-form" ).dialog( "close" );
+            }
+        });
     });
-    
+
     $("#clearAdmin").click(function() { 
     	var api_key = $("#api-key").val();
     	var share_secret = $("#share-secret").val();
         
         $.ajax({
-    		type: "GET",
-    		url: "AdminResetServlet",
-    		data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
-    		cache: false,
-    		success: function(responseText) {
-    			document.getElementById("api-key").value = responseText.apiKey;
-				document.getElementById("share-secret").value = responseText.sharedSecret;
-    		}
+            type: "GET",
+            url: "AdminResetServlet",
+            data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
+            cache: false,
+            success: function(responseText) {
+                document.getElementById("api-key").value = responseText.apiKey;
+                document.getElementById("share-secret").value = responseText.sharedSecret;
+            }
     	}); 
-	});	
-          
+    });	
+
      
 });
 
 var transferFund = function () {
-	var senderCardNum = $("#sender-card-number").val();
-	var receiverCardNum = $("#receiver-card-number").val();
-	var receiverName = $("receiver-name").val();
-	var transferAmount = $("#transfer-amount").val();
+    var senderCardNum = $("#sender-card-number").val();
+    var receiverCardNum = $("#receiver-card-number").val();
+    var receiverName = $("receiver-name").val();
+    var transferAmount = $("#transfer-amount").val();
 	var parsedData;
 	var actionCode;
 	var $messageDiv = $('#showMsg2');	
@@ -153,78 +154,80 @@ var transferFund = function () {
 	$apiNameDiv.show().html('Pull Money(AFT)');
 	$('#end-point-url').val("https://sandbox.api.visa.com/cva/cce/AccountFundingTransactions/");
     $('#end-point-url-1').val("https://sandbox.api.visa.com/cva/cce/OriginalCreditTransactions/");
-	var fundTransferData = {
-			sender_card_number: senderCardNum,
-			receiver_card_number: receiverCardNum,
-			receiver_name: receiverName,
-			transfer_amount: transferAmount
-	};
+    var fundTransferData = {
+        sender_card_number: senderCardNum,
+        receiver_card_number: receiverCardNum,
+        receiver_name: receiverName,
+        transfer_amount: transferAmount
+    };
 
-	$.ajax({
-		type: "GET",
-		url: "AFTRequestServlet",
-		data: "amount="+transferAmount,	
-		cache: false,
-		success: function(data) {
-			$('#request').html(data);
-		}
-	});
+    $.ajax({
+        type: "GET",
+        url: "AFTRequestServlet",
+        data: "amount="+transferAmount,	
+        cache: false,
+        success: function(data) {
+            $('#request').html(data);
+        }
+    });
 
-	$.ajax({
-		type: "GET",
-		url: "AFTResponseServlet",
-		data: "amount="+transferAmount,	
-		cache: false,
-		success: function(responseText) {
-			$('#x-pay-token').val(responseText.token);
-			$('#response').html(responseText.response); 	
-			$('#api-key-2').val(responseText.apiKey);
-			$('#shared-secret-2').val(responseText.sharedSecret);
+    $.ajax({
+            type: "GET",
+            url: "AFTResponseServlet",
+            data: "amount="+transferAmount,	
+            cache: false,
+            success: function(responseText) {
+                    $('#x-pay-token').val(responseText.token);
+                    $('#response').html(responseText.response); 	
+                    $('#api-key-2').val(responseText.apiKey);
+                    $('#shared-secret-2').val(responseText.sharedSecret);
 
-			parsedData =JSON.parse(responseText.response);						
-			actionCode = parsedData.ActionCode;						
+                    parsedData =JSON.parse(responseText.response);						
+                    actionCode = parsedData.ActionCode;						
 
-			if (actionCode=="00" || actionCode=="0") {	
-				$octDiv.show();
-				$.ajax({
-					type: "GET",
-					url: "OCTRequestServlet",
-					data: "amount="+transferAmount,	
-					cache: false,
-					success: function(data1) {
-						
-						$('#request-1').html(data1);
-					}
-				});
+                    if (actionCode=="00" || actionCode=="0") {	
+                            $octDiv.show();
+                            $.ajax({
+                                    type: "GET",
+                                    url: "OCTRequestServlet",
+                                    data: "amount="+transferAmount,	
+                                    cache: false,
+                                    success: function(data1) {
 
-				$.ajax({
-					type: "GET",
-					url: "OCTResponseServlet",
-					data: "amount="+transferAmount,	
-					cache: false,
-					success: function(responseText1) {											
-						$('#x-pay-token-1').val(responseText1.token);						
-						$('#response-1').html(responseText1.response); 						
+                                            $('#request-1').html(data1);
+                                    }
+                            });
 
-						parsedData =JSON.parse(responseText1.response);						
-						actionCode = parsedData.ActionCode;		
+                            $.ajax({
+                                    type: "GET",
+                                    url: "OCTResponseServlet",
+                                    data: "amount="+transferAmount,	
+                                    cache: false,
+                                    success: function(responseText1) {											
+                                            $('#x-pay-token-1').val(responseText1.token);						
+                                            $('#response-1').html(responseText1.response); 						
 
-						if (actionCode=="00") {							
-							$messageDiv.show().html('<font color="green" size="2" family="Source Code Pro"><center>Money Transfer Successful!</center></font>');							
-						}else{
-							$messageDiv.show().html('<font color="red" size="2" family="Source Code Pro"><center>Money Transfer Failed.<center></font>');
-						}
-					}
-				});
-			}else{
-				$messageDiv.show().html('<font color="red" size="2" family="Source Code Pro"><center>Money Transfer Failed.<center></font>');
-				document.getElementById("cbxShowHide").disabled=false;
-				$('#request').val('');
-				$('#response').val('');
-				$('#x-pay-token').val('');
-			} 
-		}
-	}); 
+                                            parsedData =JSON.parse(responseText1.response);						
+                                            actionCode = parsedData.ActionCode;	
+                                            
+                                            resetMessageBox($messageDiv);
+
+                                            if (actionCode=="00") {							
+                                                    $messageDiv.addClass("success").show().html('Money Transfer Successful!');							
+                                            }else{
+                                                    $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
+                                            }
+                                    }
+                            });
+                    }else{
+                            $messageDiv.show().html('Money Transfer Failed.');
+                            document.getElementById("cbxShowHide").disabled=false;
+                            $('#request').val('');
+                            $('#response').val('');
+                            $('#x-pay-token').val('');
+                    } 
+            }
+    }); 
 
 }
 
@@ -236,7 +239,7 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
 	$apiNameDiv.show().html('Account Verification');
 	$('#oct-div').hide();
 	$('#end-point-url').val("https://sandbox.api.visa.com/cva/cce/AccountVerification/");
-	$.ajax({
+    $.ajax({
 		type: "GET",
 		url: "AccountVerificationRequestServlet",
 		data: "accNo="+cardNumber,	
@@ -257,15 +260,17 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
 			$('#api-key-2').val(responseText.apiKey);
 			$('#shared-secret-2').val(responseText.sharedSecret);
 			
+                        resetMessageBox($messageDiv);
+                        
 			if (responseRegExp.test(responseText.response)) {					
-				$messageDiv.show().html('<font color="green" size="2" family="Source Code Pro"><center>Sender Account Verified Successfully!<center></font>');
-				nextStep(targetId);
+                            $messageDiv.addClass("success").show().html('Sender Account Verified Successfully!');
+                            nextStep(targetId);
 			}else{
-				$messageDiv.show().html('<font color="red" size="2" family="Source Code Pro"><center>Failed to verify Sender Account.<center></font>');
+                            $messageDiv.addClass("warning").show().html('Failed to verify Sender Account.');
 			}
          
 		}
-	});    
+    });
 }
 
 //Receiver Card Number Verification
@@ -297,14 +302,20 @@ var verifyReceiverCardNumber = function (cardNumber, targetId) {
 			$('#api-key-2').val(responseText.apiKey);
 			$('#shared-secret-2').val(responseText.sharedSecret);
 			
-			if (responseRegExp.test(responseText.response)) {					
-				$messageDiv.show().html('<font color="green" size="2" family="Source Code Pro"><center>Receiver Account Verified Successfully!<center></font>');
+                        resetMessageBox($messageDiv);
+                        
+			if (responseRegExp.test(responseText.response)) {
+                            $messageDiv.addClass("success").show().html('Receiver Account Verified Successfully!');
 				 nextStep(targetId);
 			}else{
-				$messageDiv.show().html('<font color="red" size="2" family="Source Code Pro"><center>Failed to verify Receiver Account.<center></font>');
+                            $messageDiv.addClass("warning").show().html('Failed to verify Receiver Account.');
 			}      
 		}
 	});    
+}
+
+var resetMessageBox = function ($this) {
+    $this.removeClass("success warning");
 }
 
 var toggleOffCanvas = function (target) {
@@ -330,21 +341,22 @@ var nextStep = function (targetObjectId) {
     $(targetObjectId).fadeIn(500);
     
     
+    
     var targetWidgetId = targetObjectId+"-widget";
-    console.log(targetWidgetId);
     if (targetObjectId == "#receiver-info") {
-        nextStepClass = "step2"
+        nextStepClass = "step2";
         $(".progress-arrow").removeClass("active");
         $(targetWidgetId).next(".progress-arrow").addClass("active");
     } else if (targetObjectId == "#money-info") {
-        nextStepClass = "step3"
+        nextStepClass = "step3";
         $(".progress-arrow").removeClass("active");
     } else {
-        nextStepClass = "step1"
+        nextStepClass = "step1";
         $(".progress-arrow").removeClass("active");
         $(targetWidgetId).next(".progress-arrow").addClass("active");
         //arrowPosition = "left";
     }
+    
     //$(".progress-arrow").removeClass("left").removeClass("right").removeClass("hide").addClass(arrowPosition);
     
     // Remove all carrot then add carrot to the selected item

@@ -14,9 +14,9 @@ and open the template in the editor.
     src: url('../fonts/OpenSans-Light-webfont.eot');
     src: url('../fonts/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/OpenSans-Light-webfont.woff') format('woff'),
-         url('../fonts/OpenSans-Light-webfont.ttf') format('truetype'),
+         url('../fonts/Open_Sans/OpenSans-Light.ttf') format('truetype'),
          url('../fonts/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
-    font-weight: 200;
+    font-weight: 300;
     font-style: normal;
 
 }
@@ -121,13 +121,18 @@ nav.navbar {
 }
 
 .fund-transfer-steps {
-    padding-top: 41px;
-    padding-bottom: 14px;
+    padding-top: 20px;
+    padding-bottom: 0px;
 }
 
 .fund-transfer-steps .heading {
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-size: 40px;
+}
+
+.fund-transfer-steps .heading h1 {
+    font-weight: 100;
+    color: #505050;
 }
 
 .fund-transfer-steps .heading span {
@@ -153,6 +158,7 @@ nav.navbar {
 }
 
 .fund-transfer-steps h2, .fund-transfer-steps h3 {
+    color: #505050;
     font-weight: 100;
 }
 
@@ -211,9 +217,19 @@ nav.navbar {
     background: #646464; 
 }
 
-.next-step {
+button.next-step {
     display: block;
+    color: #858484;
     margin-top: 10px;
+}
+
+button.next-step:hover {
+    text-decoration: none;
+}
+
+button.next-step span{
+    position: relative;
+    top: -12px;
 }
 
 label {
@@ -437,11 +453,36 @@ a.update-link {
     height: 127px;
     background: url(../images/money_icon_active.png) no-repeat center;
 }
+
+.message {
+    color: #FFF;
+    padding: 20px 0;
+    font-size: 18px;
+    display: none;
+    border-radius: 0px;
+    
+}
+
+.message.success {
+    background: #10d1c5;
+    
+}
+
+.message.warning {
+    background: #CE2A21;
+}
+
+
+
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
 /* Small devices (tablets, 768px and up) */
 @media (min-width: 768px) {
+    .message {
+        border-radius: 4px;
+    }
+
     #navbar {
         background: #FFF;
     }

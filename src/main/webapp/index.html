@@ -8,10 +8,12 @@
     <title>Fund Transfer</title>
 
     <!-- Bootstrap -->
+    
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/font-awesome.min.css" rel="stylesheet">
     <link href="css/jasny-bootstrap.min.css" rel="stylesheet">
     <link href="css/fund-transfer.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -27,20 +29,20 @@
     </div>
        
     <div id="view-code-widget" class="navmenu navmenu-default navmenu-fixed-left offcanvas " style="left: 0px;">
-        <span class="title">API Name: <span id="apiname" style="display:none" class="title"></span></span>
+        <span class="title">API Name: <span id="apiname" style="display: none" class="title"></span><</span>
       
         <div class="offcanvas-content-wrapper">
             <label for="api-key-2">API-KEY:</label>
-            <input id="api-key-2" class="form-control" />
+            <input id="api-key-2" class="form-control" value="" />
             
             <label for="shared-secret-2">Shared Secret:</label>
-            <input id="shared-secret-2" class="form-control"/>
+            <input id="shared-secret-2" class="form-control" value="" />
             
             <label for="end-point-url">End Point URL:</label>
-            <input id="end-point-url" class="form-control"/>
+            <input id="end-point-url" class="form-control" value="" />
             
             <label for="x-pay-token">X-Pay-Token:</label>
-            <input id="x-pay-token" class="form-control" />
+            <input id="x-pay-token" class="form-control" value="" />
             
             <label for="request">Request:</label>
             <textarea id="request" class="form-control"></textarea>
@@ -48,20 +50,21 @@
             <label for="response">Response</label>
             <textarea id="response" class="form-control"></textarea>
             
+            
             <div id="oct-div" style="display: none">
-            <label for="api-key-2">API Name: Push Money(OCT)</label>
-            
-             <label for="end-point-url-1">End Point URL:</label>
-            <input id="end-point-url-1" class="form-control"/>
-            
-            <label for="x-pay-token-1">X-Pay-Token:</label>
-            <input id="x-pay-token-1" class="form-control" />
-            
-             <label for="request-1">Request:</label>
-            <textarea id="request-1" class="form-control"></textarea>
-            
-            <label for="response-1">Response</label>
-            <textarea id="response-1" class="form-control"></textarea>
+                <label for="api-key-2">API Name: Push Money(OCT)</label>
+
+                <label for="end-point-url-1">End Point URL:</label>
+                <input id="end-point-url-1" class="form-control"/>
+
+                <label for="x-pay-token-1">X-Pay-Token:</label>
+                <input id="x-pay-token-1" class="form-control" />
+
+                <label for="request-1">Request:</label>
+                <textarea id="request-1" class="form-control"></textarea>
+
+                <label for="response-1">Response</label>
+                <textarea id="response-1" class="form-control"></textarea>
             </div>
         </div>
     </div>
@@ -94,27 +97,6 @@
                     <span>The easiest way to transfer money to a Visa card</span>
                 </div>
             </div>
-            <!--
-            <div class="row">
-                <div id="sender-info-widget" class="col-sm-4 step">
-                    <div class="circle active">
-                        <i class="fa fa-cc-visa fa-3x fa-inverse"></i>
-                    </div>
-                    <h3>Sender's Account</h3>
-                </div>
-                <div id="receiver-info-widget" class="col-sm-4 step">
-                    <div class="circle">
-                        <i class="fa fa-bank fa-3x fa-inverse"></i>
-                    </div>
-                    <h3>Receiver's Account</h3>
-                </div>
-                <div id="money-info-widget" class="col-sm-4 step">
-                    <div class="circle">
-                        <i class="fa fa-dollar fa-3x fa-inverse"></i>
-                    </div>
-                    <h3>Transfer Money</h3>
-                </div>
-            </div>-->
             <div class="row">
                 <div id="sender-info-widget" class="col-sm-2 col-sm-offset-1 step"></div>
                 <div class="col-sm-2 progress-arrow active"><img class="img-responsive" src="images/arrow.png"/></div>
@@ -135,7 +117,7 @@
             </div>
         </div>
     </div>
-    <div class="container hidden-xs">
+    <div class="container hidden-xs carrot-container">
         <div class="row">
             <div class="carrot step1"></div>
         </div>
@@ -152,33 +134,32 @@
         </div>
         <div id="sender-info" class="step" style="display: block">
             <div class="row">
+                <div id="showMsg" class="col-xs-12 text-center message"></div>
+            </div>
+            <div class="row">
                 <div class="col-md-9 col-md-offset-3 hidden-xs">
                     <h3>Enter Sender's Visa Card Number</h3>
                 </div>
             </div>
             <div class="row form-content">
                 <form id="sender-info-form" method="POST">
-                    <div class="col-md-9 col-md-offset-3"><label for="sender-card-number">Sender's Visa Card Number</label></div>
-                    <div class="col-md-3 col-md-offset-3">
-                        <input type="text" class="form-control" id="sender-card-number" maxlength="16" value="4957030420210462" />
+                    <div class="col-md-7 col-md-offset-3">
+                        <div class="row">
+                            <label for="sender-card-number" class="col-md-12">Sender's Visa Card Number</label>
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" id="sender-card-number" maxlength="16" value="4957030420210462" />
+                            </div>
+                            <div class="col-md-6">
+                                <button id="verify-sender-card-number" type="button" class="btn btn-default blue">Verify</button>
+                                <button type="button" class="btn btn-default grey reset-button">Reset</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        <button id="verify-sender-card-number" type="button" class="btn btn-default blue">Verify</button>
-                        <button type="button" class="btn btn-default grey reset-button">Reset</button>
+                    <div class="col-md-2 text-right">
+                        <button class="next-step hidden-xs btn btn-link" data-target="receiver-info"><span>NEXT</span> <i class="fa fa-angle-right fa-4x"></i></button>
                     </div>
-                    <div class="col-md-1 text-right">
-                        <a href="#" class="next-step hidden-xs" data-target="receiver-info"><span>NEXT</span> <i class="fa fa-angle-right"></i></a>
-                    </div>
-                    
-                    
                 </form>
-                
             </div>
-            <br/>  <br/>
-            <div class="row">
-                 <div class="col-md-9 col-md-offset-3" id="showMsg" style="display: none"></div>
-               </div>
-            
         </div>
         <div class="row form-title visible-xs" data-target="receiver-info">
             <div class="col-xs-12">
@@ -190,34 +171,36 @@
         </div>
         <div id="receiver-info" class="step" style="display: none;">
             <div class="row">
+                <div id="showMsg1" class="col-xs-12 text-center message"></div>
+            </div>
+            <div class="row">
                 <div class="col-md-11 col-md-offset-1 hidden-xs">
                     <h3>Enter Receiver's Visa Card Number</h3>
                 </div>
             </div>
             <div class="row form-content">
                 <form id="receiver-info-form" method="POST">
-                    <div class="col-md-3 col-md-offset-1">
-                        <label for="receiver-name">Receiver's Name</label>
-                        <input type="text" class="form-control" id="receiver-name"/>
+                    <div class="col-md-10 col-md-offset-1">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="receiver-name">Receiver's Name</label>
+                                <input type="text" class="form-control" id="receiver-name"/>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="receiver-card-number">Receiver's Visa Card Number</label>
+                                <input type="text" class="form-control" id="receiver-card-number" maxlength="16" value="4895070000008881"/>
+                            </div>
+                            <div class="col-md-4 form-control-extra-padding">
+                                <button id="verify-receiver-card-number" type="button" class="btn btn-default blue">Verify</button>
+                                <button type="button" class="btn btn-default grey reset-button">Reset</button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <label for="receiver-card-number">Receiver's Visa Card Number</label>
-                        <input type="text" class="form-control" id="receiver-card-number" maxlength="16" value="4895070000008881"/>
-                    </div>
-                    <div class="col-md-4 form-control-extra-padding">
-                        <button id="verify-receiver-card-number" type="button" class="btn btn-default blue">Verify</button>
-                        <button type="button" class="btn btn-default grey reset-button">Reset</button>
-                    </div>
-                    <div class="col-md-1 text-right form-control-extra-padding">
-                        <a href="#" class="next-step hidden-xs" data-target="money-info">NEXT <i class="fa fa-angle-right"></i></a>
+                    <div class="col-md-1 text-right">
+                        <button class="next-step hidden-xs btn btn-link" data-target="money-info"><span>NEXT</span> <i class="fa fa-angle-right fa-4x"></i></button>
                     </div>
                 </form>
             </div>
-            <br/>  <br/>
-            <div class="row">
-                 <div id="showMsg1" style="display: none"></div>
-               </div>
-            
         </div>
         <div class="row form-title visible-xs" data-target="money-info">
             <div class="col-xs-12">
@@ -228,6 +211,9 @@
             </div>
         </div>
         <div id="money-info" class="step" style="display: none;">
+            <div class="row">
+                <div id="showMsg2" class="col-xs-12 text-center message"></div>
+            </div>
             <div class="row">
                 <div class="col-md-11 col-md-offset-1 hidden-xs">
                     <h3>Transfer Money</h3>
@@ -251,7 +237,7 @@
                         <label for="transfer-amount">Amount</label>
                         <div class="input-group">
                             <div class="input-group-addon">$</div>
-                            <input type="text" class="form-control" id="transfer-amount" name="transfer-amount" value="25"/>
+                            <input type="text" class="form-control" id="transfer-amount" name="transfer-amount" />
                           </div>
                     </div>
                     <div class="col-md-4 form-control-extra-padding">
@@ -260,11 +246,6 @@
                     </div>
                 </form>
             </div>
-            
-            <br/>  <br/>
-            <div class="row">
-                 <div id="showMsg2" style="display: none"></div>
-               </div>
         </div>
     </div> <!-- /container -->
     
@@ -276,7 +257,7 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times-circle fa-1x"></i></button>
                     <h4 class="modal-title" id="myModalLabel">Update Credentials</h4>
                 </div>
-                <form id="update-credential-form">               
+                <form id="update-credential-form">
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="api-key" class="control-label">API-Key</label>
