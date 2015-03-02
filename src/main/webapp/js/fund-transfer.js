@@ -220,7 +220,7 @@ var transferFund = function () {
                                     }
                             });
                     }else{
-                            $messageDiv.show().html('Money Transfer Failed.');
+                            $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
                             document.getElementById("cbxShowHide").disabled=false;
                             $('#request').val('');
                             $('#response').val('');
@@ -264,7 +264,7 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
                         
 			if (responseRegExp.test(responseText.response)) {					
                             $messageDiv.addClass("success").show().html('Sender Account Verified Successfully!');
-                            nextStep(targetId);
+                            //nextStep(targetId);
 			}else{
                             $messageDiv.addClass("warning").show().html('Failed to verify Sender Account.');
 			}
@@ -306,7 +306,7 @@ var verifyReceiverCardNumber = function (cardNumber, targetId) {
                         
 			if (responseRegExp.test(responseText.response)) {
                             $messageDiv.addClass("success").show().html('Receiver Account Verified Successfully!');
-				 nextStep(targetId);
+                            //nextStep(targetId);
 			}else{
                             $messageDiv.addClass("warning").show().html('Failed to verify Receiver Account.');
 			}      
