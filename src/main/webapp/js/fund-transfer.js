@@ -31,6 +31,41 @@ $(function() {
         return false;
     });
     
+    $("#verify-sender-reset").on("click", function(){    	
+    	$("#sender-card-number").val('4957030420210462');
+        $('#showMsg').hide();        
+    });
+    
+    $("#clearRecp").on("click", function(){  
+        // $(this).closest("form").find("input[type=text]").val("");
+    	$("#receiver-card-number").val('4895070000008881');
+         $('#showMsg1').hide();             
+         
+     });
+    
+    $("#clearTransfer").on("click", function(){    	
+        // $(this).closest("form").find("input[type=text]").val("");
+         $('#showMsg2').hide();           
+         var senderCardNum = $("#sender-card-number-final").val();
+         var receiverCardNum = $("#receiver-card-final").val();
+         var transferAmount = $("#transfer-amount").val();
+         
+         $.ajax({
+             type: "GET",
+             url: "TransferResetServlet",
+             cache: false,
+             data: "accNo="+senderCardNum+"&recipientCardNumber="+receiverCardNum+"&amount="+transferAmount,		
+             success: function(responseText) {
+                document.getElementById("sender-card-number-final").value = responseText.senderPAN;
+     			document.getElementById("receiver-card-final").value = responseText.recipientPAN;
+     			document.getElementById("transfer-amount").value = responseText.amount;     			
+             }
+         });		
+     });
+    
+   
+    
+    
     /*
      * When update link is clicked, switch to appropriate form
      */
@@ -73,13 +108,13 @@ $(function() {
     /*
      * Reset form value
      */
-    $("button.reset-button").on("click", function(){
+  /*  $("button.reset-button").on("click", function(){
         $(this).closest("form").find("input[type=text]").val("");
         $('#showMsg').hide();
         $('#showMsg1').hide();
         $('#showMsg2').hide();
         //$('#apiname').hide();
-    });
+    });*/
     
     /*
      * Transfer Fund
@@ -142,8 +177,8 @@ $(function() {
 });
 
 var transferFund = function () {
-    var senderCardNum = $("#sender-card-number").val();
-    var receiverCardNum = $("#receiver-card-number").val();
+    var senderCardNum = $("#sender-card-number-final").val();
+    var receiverCardNum = $("#receiver-card-final").val();
     var receiverName = $("receiver-name").val();
     var transferAmount = $("#transfer-amount").val();
 	var parsedData;
@@ -349,6 +384,7 @@ var nextStep = function (targetObjectId) {
         $(targetWidgetId).next(".progress-arrow").addClass("active");
     } else if (targetObjectId == "#money-info") {
         nextStepClass = "step3";
+        populateForm();
         $(".progress-arrow").removeClass("active");
     } else {
         nextStepClass = "step1";
@@ -380,4 +416,18 @@ var nextStep = function (targetObjectId) {
     $(targetWidgetId).addClass("active");
 
     return false;
+}
+
+function populateForm(){
+	
+	$.ajax({
+        type: "GET",
+        url: "DefaultTransferServlet",
+        cache: false,
+        success: function(responseText) {        	
+           document.getElementById("sender-card-number-final").value = responseText.senderPAN;
+			document.getElementById("receiver-card-final").value = responseText.recipientPAN;
+			document.getElementById("transfer-amount").value = responseText.amount;     			
+        }
+    });	    	
 }

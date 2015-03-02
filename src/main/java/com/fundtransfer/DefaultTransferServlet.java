@@ -39,6 +39,7 @@ public class DefaultTransferServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
+		System.out.println("DefaultTransferServlet Start>>>");
 		HttpSession session = request.getSession();
 		String senderPAN = (String) session.getAttribute("senderPAN");
 		String recipientPAN = (String) session

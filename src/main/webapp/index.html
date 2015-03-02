@@ -22,7 +22,7 @@
       <script src="js/respond.min.js"></script>
     <![endif]-->
   </head>
-<body>
+<body onLoad="populateForm()">
     
     <div class="view-code-button-wrapper hidden-xs" data-toggle="offcanvas" data-target=".navmenu" data-canvas="body">
         <div class="arrow"><i class="fa fa-angle-right"></i></div><div class="text">View Code</div>
@@ -151,7 +151,7 @@
                             </div>
                             <div class="col-md-6">
                                 <button id="verify-sender-card-number" type="button" class="btn btn-default blue">Verify</button>
-                                <button type="button" class="btn btn-default grey reset-button">Reset</button>
+                                <button type="button" id="verify-sender-reset" class="btn btn-default grey reset-button">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -192,7 +192,7 @@
                             </div>
                             <div class="col-md-4 form-control-extra-padding">
                                 <button id="verify-receiver-card-number" type="button" class="btn btn-default blue">Verify</button>
-                                <button type="button" class="btn btn-default grey reset-button">Reset</button>
+                                <button type="button"  id="clearRecp"  class="btn btn-default grey reset-button">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -220,17 +220,17 @@
                 </div>
             </div>
             <div class="row form-content">
-                <form id="money-transfer-form" method="POST">
+                <form id="money-transfer-form" method="POST" >
                     <div class="col-md-4 col-md-offset-1">
                         <div class="form-group">
                             <label for="sender-card-number-final">Sender's Visa Card Number</label>
                             <a href="#" class="update-link" data-target="sender-info">update</a>
-                            <input type="text" class="form-control" id="sender-card-number-final" name="sender-card-number-final" disabled="disabled" value="4957030420210462"/>
+                            <input type="text" class="form-control" id="sender-card-number-final" name="sender-card-number-final"  disabled />
                         </div>
                         <div class="form-group">
                             <label id="receiver-card-number-final">Receiver's Visa Card Number</label>
                             <a href="#" class="update-link" data-target="receiver-info">update</a>
-                            <input type="text" class="form-control" id="receiver-card-number-final" name="receiver-card-number-final" disabled="disabled" value="4895070000008881"/>
+                            <input type="text" class="form-control" id="receiver-card-final" name="receiver-card-final" disabled  />
                         </div>
                     </div>
                     <div class="col-md-2">
@@ -242,7 +242,7 @@
                     </div>
                     <div class="col-md-4 form-control-extra-padding">
                         <button id="transfer-fund-button" type="submit" class="btn btn-default blue">Transfer</button>
-                        <button type="button" class="btn btn-default grey reset-button">Reset</button>
+                        <button type="button" id="clearTransfer" class="btn btn-default grey reset-button">Reset</button>
                     </div>
                 </form>
             </div>
