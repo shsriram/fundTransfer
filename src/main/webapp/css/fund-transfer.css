@@ -300,12 +300,13 @@ label {
 }
 
 .offcanvas label {
-    margin-top: 20px;
+    margin-top: 10px;
     color: #FFF;
+    font-size: 14px;
 }
 
 .offcanvas textarea {
-    height: 100px;
+    height: 130px;
 }
 
 .view-code-button-wrapper {
@@ -472,6 +473,39 @@ a.update-link {
     background: #CE2A21;
 }
 
+span.error {
+    color: #CE2A21;
+    font-size: 16px;
+}
+
+input.error {
+    color: #CE2A21;
+    border-color: #CE2A21;
+}
+
+#sender_card_number, #receiver_card_number {
+    border-right: none;
+}
+
+#sender_card_number + .input-group-addon,
+#receiver_card_number + .input-group-addon{
+    background: none;
+}
+
+#sender_card_number + .input-group-addon i.fa-check,
+#receiver_card_number + .input-group-addon i.fa-check {
+    color: #10d1c5;
+}
+
+#sender_card_number + .input-group-addon i.fa-times,
+#receiver_card_number + .input-group-addon i.fa-times {
+    color: #CE2A21;
+}
+
+#sender_card_number.error + .input-group-addon,
+#receiver_card_number.error + .input-group-addon {
+    border-color: #CE2A21;
+}
 
 
 /* Extra small devices (phones, less than 768px) */
