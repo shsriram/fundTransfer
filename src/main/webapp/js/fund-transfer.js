@@ -135,7 +135,7 @@ $(function() {
             type: "GET",
             url: "AdminConsoleReadServlet",
             cache: false,
-            data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
+            data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),		
             success: function(responseText) {
                 document.getElementById("api-key").value = responseText.apiKey;
                 document.getElementById("share-secret").value = responseText.sharedSecret;
@@ -149,7 +149,7 @@ $(function() {
         $.ajax({
             type: "GET",
             url: "AdminConsoleServlet",
-            data: "apiKey="+api_key+"&sharedSecret="+share_secret,	
+            data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),	
             cache: false,
             success: function(responseText) {
                 $( "#update-credential-form" ).dialog( "close" );
@@ -157,23 +157,17 @@ $(function() {
         });
     });
 
-    $("#clearAdmin").click(function() { 
-    	var api_key = $("#api-key").val();
-    	var share_secret = $("#share-secret").val();
-        
+    $("#clearAdmin").click(function() {    	
         $.ajax({
             type: "GET",
-            url: "AdminResetServlet",
-            data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
+            url: "AdminResetServlet",           	
             cache: false,
             success: function(responseText) {
                 document.getElementById("api-key").value = responseText.apiKey;
                 document.getElementById("share-secret").value = responseText.sharedSecret;
             }
     	}); 
-    });	
-
-     
+    });	     
 });
 
 var transferFund = function () {

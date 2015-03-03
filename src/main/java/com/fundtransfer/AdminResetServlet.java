@@ -37,13 +37,11 @@ public class AdminResetServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("AdminResetServlet Start>>>");
-		HttpSession session = request.getSession();
-		String apiKey = (String) session.getAttribute("apiKey");
-		String sharedSecret = (String) session.getAttribute("sharedSecret");
+		HttpSession session = request.getSession();		
 		JSONObject outputJson = new JSONObject();
 		PrintWriter out = response.getWriter();
-		apiKey = (String) new ConfigValues().getPropValues().get("apiKey");
-		sharedSecret = (String) new ConfigValues().getPropValues().get(
+		String apiKey = (String) new ConfigValues().getPropValues().get("apiKey");
+		String sharedSecret = (String) new ConfigValues().getPropValues().get(
 				"sharedSecret");
 		session.setAttribute("apiKey", apiKey);
 		session.setAttribute("sharedSecret", sharedSecret);
