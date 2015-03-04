@@ -1,5 +1,7 @@
 $(function() {
     
+    populateForm();
+    
     /*
      * auto hightlight text content on focus 
      */
@@ -37,6 +39,43 @@ $(function() {
         
         return false;
     });
+    
+    $("#verify-sender-reset").on("click", function(){    	
+    	$("#sender_card_number").val('4957 0304 2021 0462');
+        $('#showMsg').hide();    
+        $("#sender_card_number + .input-group-addon i").removeClass("fa-check fa-times");
+    });
+    
+    $("#clearRecp").on("click", function(){  
+        // $(this).closest("form").find("input[type=text]").val("");
+    	$("#receiver_card_number").val('4895 0700 0000 8881');
+         $('#showMsg1').hide();    
+         $("#receiver_card_number + .input-group-addon i").removeClass("fa-check fa-times");
+         
+     });
+    
+    $("#clearTransfer").on("click", function(){    	
+        // $(this).closest("form").find("input[type=text]").val("");
+         $('#showMsg2').hide();           
+         var senderCardNum = $("#sender-card-number-final").val();
+         var receiverCardNum = $("#receiver-card-final").val();
+         var transferAmount = $("#transfer-amount").val();
+         
+         $.ajax({
+             type: "GET",
+             url: "TransferResetServlet",
+             cache: false,
+             data: "accNo="+senderCardNum+"&recipientCardNumber="+receiverCardNum+"&amount="+transferAmount,		
+             success: function(responseText) {
+                document.getElementById("sender-card-number-final").value = responseText.senderPAN;
+                document.getElementById("receiver-card-final").value = responseText.recipientPAN;
+                document.getElementById("transfer-amount").value = responseText.amount;     			
+             }
+         });		
+     });
+    
+   
+    
     
     /*
      * When update link is clicked, switch to appropriate form
@@ -134,7 +173,7 @@ $(function() {
     /*
      * Reset form value
      */
-    $("button.reset-button").on("click", function(){
+  /*  $("button.reset-button").on("click", function(){
         $(this).closest("form").find("input[type=text]").val("");
         $('#showMsg').hide();
         $('#showMsg1').hide();
@@ -142,7 +181,7 @@ $(function() {
         
         $("#sender_card_number + .input-group-addon i, #receiver_card_number + .input-group-addon i").removeClass("fa-check fa-times");
         //$('#apiname').hide();
-    });
+    });*/
     
     /*
      * Transfer Fund
@@ -185,7 +224,7 @@ $(function() {
             type: "GET",
             url: "AdminConsoleReadServlet",
             cache: false,
-            data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
+            data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),		
             success: function(responseText) {
                 document.getElementById("api-key").value = responseText.apiKey;
                 document.getElementById("share-secret").value = responseText.sharedSecret;
@@ -227,7 +266,7 @@ $(function() {
         $.ajax({
             type: "GET",
             url: "AdminConsoleServlet",
-            data: "apiKey="+api_key+"&sharedSecret="+share_secret,	
+            data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),	
             cache: false,
             success: function(responseText) {
                 $( "#update-credential-form" ).dialog( "close" );
@@ -235,14 +274,10 @@ $(function() {
         });
     });
 
-    $("#clearAdmin").click(function() { 
-    	var api_key = $("#api-key").val();
-    	var share_secret = $("#share-secret").val();
-        
+    $("#clearAdmin").click(function() {    	
         $.ajax({
             type: "GET",
-            url: "AdminResetServlet",
-            data: "apiKey="+api_key+"&sharedSecret="+share_secret,		
+            url: "AdminResetServlet",           	
             cache: false,
             success: function(responseText) {
                 document.getElementById("api-key").value = responseText.apiKey;
@@ -252,8 +287,11 @@ $(function() {
     });	
     
      
-});
+});	     
 
+/*
+ * Format credit card number, add space between every 4 digits
+ */
 var formatCreditCardNum = function(currentCardNum) {
     var formatedNum = null;
     var length = null;
@@ -301,63 +339,63 @@ var transferFund = function () {
     });
 
     $.ajax({
-            type: "GET",
-            url: "AFTResponseServlet",
-            data: "amount="+transferAmount,	
-            cache: false,
-            success: function(responseText) {
-                $('#x-pay-token').val(responseText.token);
-                $('#response').html(responseText.response); 	
-                $('#api-key-2').val(responseText.apiKey);
-                $('#shared-secret-2').val(responseText.sharedSecret);
+        type: "GET",
+        url: "AFTResponseServlet",
+        data: "amount="+transferAmount,	
+        cache: false,
+        success: function(responseText) {
+            $('#x-pay-token').val(responseText.token);
+            $('#response').html(responseText.response); 	
+            $('#api-key-2').val(responseText.apiKey);
+            $('#shared-secret-2').val(responseText.sharedSecret);
 
-                parsedData =JSON.parse(responseText.response);						
-                actionCode = parsedData.ActionCode;						
+            parsedData =JSON.parse(responseText.response);						
+            actionCode = parsedData.ActionCode;						
 
-                if (actionCode=="00" || actionCode=="0") {	
-                    $octDiv.show();
-                    $.ajax({
+            if (actionCode=="00" || actionCode=="0") {	
+                $octDiv.show();
+                $.ajax({
+                    type: "GET",
+                    url: "OCTRequestServlet",
+                    data: "amount="+transferAmount,	
+                    cache: false,
+                    success: function(data1) {
+                        $('#request-1').html(data1);
+                    }
+                });
+
+                $.ajax({
                         type: "GET",
-                        url: "OCTRequestServlet",
+                        url: "OCTResponseServlet",
                         data: "amount="+transferAmount,	
                         cache: false,
-                        success: function(data1) {
-                            $('#request-1').html(data1);
-                        }
-                    });
+                        success: function(responseText1) {											
+                            $('#x-pay-token-1').val(responseText1.token);						
+                            $('#response-1').html(responseText1.response); 						
 
-                    $.ajax({
-                            type: "GET",
-                            url: "OCTResponseServlet",
-                            data: "amount="+transferAmount,	
-                            cache: false,
-                            success: function(responseText1) {											
-                                $('#x-pay-token-1').val(responseText1.token);						
-                                $('#response-1').html(responseText1.response); 						
+                            parsedData =JSON.parse(responseText1.response);						
+                            actionCode = parsedData.ActionCode;	
 
-                                parsedData =JSON.parse(responseText1.response);						
-                                actionCode = parsedData.ActionCode;	
+                            resetMessageBox($messageDiv);
 
-                                resetMessageBox($messageDiv);
-
-                                if (actionCode=="00") {							
-                                    $messageDiv.addClass("success").show().html('Money Transfer Successful!');							
-                                }else{
-                                    $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
-                                }
+                            if (actionCode=="00") {							
+                                $messageDiv.addClass("success").show().html('Money Transfer Successful!');							
+                            }else{
+                                $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
                             }
-                    });
-                }else{
-                    $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
-                    document.getElementById("cbxShowHide").disabled=false;
-                    $('#request').val('');
-                    $('#response').val('');
-                    $('#x-pay-token').val('');
-                } 
-            },
-            error: function(xhr, textStatus, errorThrown) {
-                $messageDiv.addClass("warning").show().html('Failed to send API request. Network Error.');
-            }
+                        }
+                });
+            }else{
+                $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
+                document.getElementById("cbxShowHide").disabled=false;
+                $('#request').val('');
+                $('#response').val('');
+                $('#x-pay-token').val('');
+            } 
+        },
+        error: function(xhr, textStatus, errorThrown) {
+            $messageDiv.addClass("warning").show().html('Failed to send API request. Network Error.');
+        }
     }); 
 
 }
@@ -493,6 +531,7 @@ var nextStep = function (targetObjectId) {
         $(targetWidgetId).next(".progress-arrow").addClass("active");
     } else if (targetObjectId == "#money-info") {
         nextStepClass = "step3";
+        populateForm();
         $(".progress-arrow").removeClass("active");
     } else {
         nextStepClass = "step1";
@@ -524,4 +563,17 @@ var nextStep = function (targetObjectId) {
     $(targetWidgetId).addClass("active");
 
     return false;
+}
+
+var populateForm = function () {
+    $.ajax({
+        type: "GET",
+        url: "DefaultTransferServlet",
+        cache: false,
+        success: function(responseText) {        	
+            document.getElementById("sender-card-number-final").value = responseText.senderPAN;
+            document.getElementById("receiver-card-final").value = responseText.recipientPAN;
+            document.getElementById("transfer-amount").value = responseText.amount;     			
+        }
+    });	    	
 }
