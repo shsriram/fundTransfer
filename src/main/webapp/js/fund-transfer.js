@@ -59,7 +59,7 @@ $(function() {
          $('#showMsg2').hide();           
          var senderCardNum = $("#sender-card-number-final").val();
          var receiverCardNum = $("#receiver-card-final").val();
-         var transferAmount = $("#transfer-amount").val();
+         var transferAmount = $("#transfer_amount").val();
          
          $.ajax({
              type: "GET",
@@ -69,7 +69,7 @@ $(function() {
              success: function(responseText) {
                 document.getElementById("sender-card-number-final").value = responseText.senderPAN;
                 document.getElementById("receiver-card-final").value = responseText.recipientPAN;
-                document.getElementById("transfer-amount").value = responseText.amount;     			
+                document.getElementById("transfer_amount").value = responseText.amount;     			
              }
          });		
      });
@@ -318,7 +318,7 @@ var formatCreditCardNum = function(currentCardNum) {
 }
 
 var transferFund = function () {
-    var transferAmount = $("#transfer-amount").val();
+    var transferAmount = $("#transfer_amount").val();
     var parsedData;
     var actionCode;
     var $messageDiv = $('#showMsg2');	
@@ -573,7 +573,7 @@ var populateForm = function () {
         success: function(responseText) {        	
             document.getElementById("sender-card-number-final").value = responseText.senderPAN;
             document.getElementById("receiver-card-final").value = responseText.recipientPAN;
-            document.getElementById("transfer-amount").value = responseText.amount;     			
+            document.getElementById("transfer_amount").value = responseText.amount;     			
         }
     });	    	
 }
