@@ -44,13 +44,15 @@ $(function() {
     	$("#sender_card_number").val('4957 0304 2021 0462');
         $('#showMsg').hide();    
         $("#sender_card_number + .input-group-addon i").removeClass("fa-check fa-times");
+        $("#sender-info-form").validate().form();
     });
     
     $("#clearRecp").on("click", function(){  
         // $(this).closest("form").find("input[type=text]").val("");
     	$("#receiver_card_number").val('4895 0700 0000 8881');
-         $('#showMsg1').hide();    
-         $("#receiver_card_number + .input-group-addon i").removeClass("fa-check fa-times");
+        $('#showMsg1').hide();    
+        $("#receiver_card_number + .input-group-addon i").removeClass("fa-check fa-times");
+        $("#receiver-info-form").validate().form();
          
      });
     
