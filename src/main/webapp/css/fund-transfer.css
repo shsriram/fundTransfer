@@ -91,7 +91,8 @@ nav.navbar {
 }
 
 #app-name {
-    border-left: 1px solid #9d9d9d;
+    border-left: 1px solid #ddd;
+    font-weight: 100;
     padding-left: 15px;
     margin-left: 15px;
 }
@@ -119,14 +120,7 @@ nav.navbar {
 
 .jumbotron {
     padding-top: 0px;
-    background-color: #b6f5fe;
-    background-image: -webkit-gradient(linear, left top, left bottom, from(#b6f5fe), to(#6dddf9)); /* Chrome, Safari 4+ */
-    background-image: -webkit-linear-gradient(top, #b6f5fe, #6dddf9); /* Chrome 10-25, iOS 5+, Safari 5.1+ */
-    background-image: -moz-linear-gradient(top, #b6f5fe, #6dddf9); /* Firefox 3.6-15 */
-    background-image: -o-linear-gradient(top, #b6f5fe, #6dddf9); /* Opera 11.10-12.00 */
-    background-image: linear-gradient(to bottom, #b6f5fe, #6dddf9); /* Chrome 26, Firefox 16+, IE 10+, Opera 12.10+ */
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#b6f5fe", endColorstr="#6dddf9"); /* IE 6-9 */
-    
+    background-color: #015697;    
     margin-bottom: 0px;
 }
 
@@ -137,17 +131,17 @@ nav.navbar {
 
 .fund-transfer-steps .heading {
     margin-bottom: 20px;
-    font-size: 25px;
+    font-size: 26px;
 }
 
 .fund-transfer-steps .heading h1 {
     font-weight: 100;
-    color: #505050;
+    color: #69d9f5;
 }
 
 .fund-transfer-steps .heading span {
     font-weight: 100;
-    color: #088eb0;
+    color: #69d9f5;
 }
 
 .fund-transfer-steps .fa-stack.fa-lg{
@@ -168,8 +162,9 @@ nav.navbar {
 }
 
 .fund-transfer-steps h2, .fund-transfer-steps h3 {
-    color: #505050;
+    color: #fff;
     font-weight: 100;
+    font-size: 22px;
 }
 
 
@@ -177,7 +172,7 @@ nav.navbar {
     font-size: 24px;
     color: #858484;
     font-weight: 200;
-    margin-bottom: 48px;
+    margin-bottom: 35px;
     display: inline;
 }
 
@@ -186,7 +181,7 @@ nav.navbar {
 }
 
 .fund-transfer-form .form-title {
-    background: #99ebfb;
+    background: #015697;
     border: 1px solid #FFF;
     cursor: pointer;
 }
@@ -194,6 +189,7 @@ nav.navbar {
 .fund-transfer-form .form-title h3 {
     font-size: 18px;
     font-weight: 100;
+    color: white;
 }
 
 .fund-transfer-form .form-content {
@@ -220,6 +216,7 @@ nav.navbar {
     color: #646464;
     padding: 5px 36px;
     margin-top: 10px;
+    margin-left: 5px;
 }
 
 .btn-default.grey:hover {
@@ -230,7 +227,7 @@ nav.navbar {
 button.next-step {
     display: block;
     color: #858484;
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 button.next-step:hover {
@@ -239,7 +236,7 @@ button.next-step:hover {
 
 button.next-step span{
     position: relative;
-    top: -12px;
+    margin-right: 10px;
 }
 
 label {
@@ -265,7 +262,7 @@ label {
 .carrot {
     position: relative;
     top: -20px;
-    left: 16%;
+    left: 15%;
     width: 0;
     height: 0;
     margin-left: -5px;
@@ -276,23 +273,26 @@ label {
     border-left: 20px solid transparent;
     color: #FFF;
     
-    -moz-transition: left 1s; 
-    -webkit-transition: left 1s;  
-    -ms-transition: left 1s;  
-    -o-transition: left 1s;  
-    transition: left 1s;
+    -moz-transition: left .4s; 
+    -webkit-transition: left .4s;  
+    -ms-transition: left .4s;  
+    -o-transition: left .4s;  
+    transition: left .4s;
+    
+    -webkit-transition-timing-function: ease-in; /* Safari and Chrome */
+    transition-timing-function: ease-in;
 }
 
 .carrot.step1 {
-    left: 16%;
+    left: 15%;
 }
 
 .carrot.step2 {
-    left: 50%;
+    left: 49%;
 }
 
 .carrot.step3 {
-    left: 83%;
+    left: 82%;
 }
 
 .navmenu-default, .navbar-default .navbar-offcanvas {
@@ -525,8 +525,8 @@ input.error {
     bottom: 0;*/
     width: 100%;
     height: 60px;
-    border-top: 1px solid #CCC;
-    margin-top: 60px;
+    border-top: 1px solid #ddd;
+    margin-top: 100px;
 }
 
 .footer > .container {
@@ -535,6 +535,8 @@ input.error {
 }
 
 .container .text-muted {
+    color: #9d9d9d;
+    font-size: smaller;
     margin: 20px 0;
 }
 

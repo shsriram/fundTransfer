@@ -288,8 +288,9 @@ $(function() {
     	}); 
     });	
     
-    $("#make-another-transfer").click(function(){
+    $("#make-another-transfer, a.navbar-brand").click(function(){
         nextStep("#sender-info");
+        return false;
     });
 });	     
 
@@ -528,12 +529,19 @@ var toggleOffCanvas = function (target) {
 var nextStep = function (targetObjectId) {
     var nextStepClass = null;
     
+    //turn off the glow effect on view code button
+    $(".view-code-button-wrapper").removeClass("glow");
+    
+    //toggle the transfer fund form
+    console.log("toggleTransferFundForm");
+    toggleTransferFundForm();
+    
     //To fix mobile to desktop view problem
     $(".fund-transfer-form .step .form-content").show();
     
     //$(".fund-transfer-form .step").hide();
-    $(".fund-transfer-form .step").slideUp(500);
-    $(targetObjectId).fadeIn(500);
+    $(".fund-transfer-form .step").slideUp(400);
+    $(targetObjectId).fadeIn(400);
     
     
     
@@ -541,21 +549,19 @@ var nextStep = function (targetObjectId) {
     if (targetObjectId == "#receiver-info") {
         nextStepClass = "step2";
         
-        //$("#sender-info").slideUp(500);
+        $(".sender-card-number-ready-only").html($("#sender_card_number").val());
         
         $(".progress-arrow").removeClass("active");
         $(targetWidgetId).next(".progress-arrow").addClass("active");
     } else if (targetObjectId == "#money-info") {
         nextStepClass = "step3";
         
-        //$("#receiver-info").slideUp(500);
+        $(".receiver-card-number-ready-only").html($("#receiver_card_number").val());
         
         populateForm();
         $(".progress-arrow").removeClass("active");
     } else {
         nextStepClass = "step1";
-        
-        //$("#money-info").slideUp(500);
         
         $(".progress-arrow").removeClass("active");
         $(targetWidgetId).next(".progress-arrow").addClass("active");
