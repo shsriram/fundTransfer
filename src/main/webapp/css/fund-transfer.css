@@ -90,6 +90,16 @@ nav.navbar {
     border: none;
 }
 
+#app-name {
+    border-left: 1px solid #9d9d9d;
+    padding-left: 15px;
+    margin-left: 15px;
+}
+
+.navbar-inverse a.navbar-brand:hover {
+    color: #9d9d9d;
+}
+
 .navbar-brand .blue {
     color: #04d1c0;
 }
@@ -127,7 +137,7 @@ nav.navbar {
 
 .fund-transfer-steps .heading {
     margin-bottom: 20px;
-    font-size: 40px;
+    font-size: 25px;
 }
 
 .fund-transfer-steps .heading h1 {
@@ -319,6 +329,9 @@ label {
     opacity: 0.5;
 }
 
+.view-code-button-wrapper.glow {
+    box-shadow: 0 0 25px #10d1c5;
+}
 
 .view-code-button-wrapper div {
     display: inline-block;
@@ -507,6 +520,39 @@ input.error {
     border-color: #CE2A21;
 }
 
+.footer {
+/*    position: absolute;
+    bottom: 0;*/
+    width: 100%;
+    height: 60px;
+    border-top: 1px solid #CCC;
+    margin-top: 60px;
+}
+
+.footer > .container {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.container .text-muted {
+    margin: 20px 0;
+}
+
+#transfer-fund-button, #clearTransfer {
+    display: inline-block;
+}
+
+.read-only #transfer-fund-button, .read-only #clearTransfer, .read-only .input-group {
+    display: none;
+}
+
+.read-only #make-another-transfer, .read-only #amount-read-only {
+    display: block;
+}
+
+#make-another-transfer, #amount-read-only {
+    display: none;
+}
 
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
@@ -539,8 +585,8 @@ input.error {
     }
     
     nav.navbar {
-        padding: 30px 0 0 0;
-        margin-bottom: 28px;
+        padding: 20px 0 0 0;
+        margin-bottom: 20px;
     }
     
     .navmenu, .navbar-offcanvas {

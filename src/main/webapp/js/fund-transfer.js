@@ -288,7 +288,9 @@ $(function() {
     	}); 
     });	
     
-     
+    $("#make-another-transfer").click(function(){
+        nextStep("#sender-info");
+    });
 });	     
 
 /*
@@ -381,7 +383,9 @@ var transferFund = function () {
                             resetMessageBox($messageDiv);
 
                             if (actionCode=="00") {							
-                                $messageDiv.addClass("success").show().html('Money Transfer Successful!');							
+                                $messageDiv.addClass("success").show().html('Money Transfer Successful!');
+                                $(".view-code-button-wrapper").addClass("glow");
+                                toggleTransferFundForm();
                             }else{
                                 $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
                             }
@@ -400,6 +404,10 @@ var transferFund = function () {
         }
     }); 
 
+}
+
+var toggleTransferFundForm = function () {
+    $("#money-transfer-form").toggleClass("read-only");
 }
 
 //Sender Card Number Verification
@@ -438,6 +446,7 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
             if (responseRegExp.test(responseText.response)) {					
                 $messageDiv.addClass("success").show().html('Sender Account Verified Successfully!');
                 $("#sender_card_number + .input-group-addon i").removeClass("fa-check fa-times").addClass("fa-check");
+                $(".view-code-button-wrapper").addClass("glow");
                 //nextStep(targetId);
             }else{
                 $messageDiv.addClass("warning").show().html('Failed to verify Sender Account.');
@@ -486,6 +495,7 @@ var verifyReceiverCardNumber = function (cardNumber, targetId) {
             if (responseRegExp.test(responseText.response)) {
                 $messageDiv.addClass("success").show().html('Receiver Account Verified Successfully!');
                 $("#receiver_card_number + .input-group-addon i").removeClass("fa-check fa-times").addClass("fa-check");
+                $(".view-code-button-wrapper").addClass("glow");
                 //nextStep(targetId);
             }else{
                 $messageDiv.addClass("warning").show().html('Failed to verify Receiver Account.');
@@ -521,7 +531,8 @@ var nextStep = function (targetObjectId) {
     //To fix mobile to desktop view problem
     $(".fund-transfer-form .step .form-content").show();
     
-    $(".fund-transfer-form .step").hide();
+    //$(".fund-transfer-form .step").hide();
+    $(".fund-transfer-form .step").slideUp(500);
     $(targetObjectId).fadeIn(500);
     
     
@@ -529,14 +540,23 @@ var nextStep = function (targetObjectId) {
     var targetWidgetId = targetObjectId+"-widget";
     if (targetObjectId == "#receiver-info") {
         nextStepClass = "step2";
+        
+        //$("#sender-info").slideUp(500);
+        
         $(".progress-arrow").removeClass("active");
         $(targetWidgetId).next(".progress-arrow").addClass("active");
     } else if (targetObjectId == "#money-info") {
         nextStepClass = "step3";
+        
+        //$("#receiver-info").slideUp(500);
+        
         populateForm();
         $(".progress-arrow").removeClass("active");
     } else {
         nextStepClass = "step1";
+        
+        //$("#money-info").slideUp(500);
+        
         $(".progress-arrow").removeClass("active");
         $(targetWidgetId).next(".progress-arrow").addClass("active");
         //arrowPosition = "left";
