@@ -263,11 +263,7 @@ $(function() {
         });
         formValidator.form();
         
-     /*   if ($(this).valid())  {
-            transferFund();
-        }
-        return false;*/
-        
+        if ($(this).valid())  {
         $.ajax({
             type: "GET",
             url: "AdminConsoleServlet",
@@ -277,6 +273,7 @@ $(function() {
                 $( "#update-credential-form" ).dialog( "close" );
             }
         });
+        }else {return false;}
     });
 
     $("#clearAdmin").click(function() {    	
