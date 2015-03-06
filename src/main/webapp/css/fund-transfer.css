@@ -321,7 +321,7 @@ label {
 
 .view-code-button-wrapper {
     border: 0px solid #000;
-    top: 50%;
+    top: 40%;
     position: fixed;
     left: 0;
     z-index: 500;
