@@ -529,6 +529,9 @@ var toggleOffCanvas = function (target) {
 var nextStep = function (targetObjectId) {
     var nextStepClass = null;
     
+    //hide all previously display message box
+    $(".message").hide();
+    
     //turn off the glow effect on view code button
     $(".view-code-button-wrapper").removeClass("glow");
     
