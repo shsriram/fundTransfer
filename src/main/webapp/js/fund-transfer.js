@@ -391,7 +391,7 @@ var transferFund = function () {
                             if (actionCode=="00") {							
                                 $messageDiv.addClass("success").show().html('Money Transfer Successful!');
                                 $(".view-code-button-wrapper").addClass("glow");
-                                toggleTransferFundForm();
+                                readOnlyTransferFundForm();
                             }else{
                                 $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
                             }
@@ -412,8 +412,12 @@ var transferFund = function () {
 
 }
 
-var toggleTransferFundForm = function () {
-    $("#money-transfer-form").toggleClass("read-only");
+var resetTransferFundForm = function () {
+    $("#money-transfer-form").removeClass("read-only");
+}
+
+var readOnlyTransferFundForm = function () {
+    $("#money-transfer-form").addClass("read-only");
 }
 
 //Sender Card Number Verification
@@ -541,7 +545,7 @@ var nextStep = function (targetObjectId) {
     $(".view-code-button-wrapper").removeClass("glow");
     
     //toggle the transfer fund form
-    toggleTransferFundForm();
+    resetTransferFundForm();
     
     //To fix mobile to desktop view problem
     $(".fund-transfer-form .step .form-content").show();
