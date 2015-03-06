@@ -263,12 +263,6 @@ $(function() {
                 }
             }
         });
-        formValidator.form();
-        
-        if ($(this).valid())  {
-            transferFund();
-        }
-        return false;
         
         $.ajax({
             type: "GET",
