@@ -1,7 +1,5 @@
 $(function() {
     
-    populateForm();
-    
     /*
      * auto hightlight text content on focus 
      */
@@ -399,7 +397,6 @@ var transferFund = function () {
                 });
             }else{
                 $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
-                document.getElementById("cbxShowHide").disabled=false;
                 $('#request').val('');
                 $('#response').val('');
                 $('#x-pay-token').val('');
