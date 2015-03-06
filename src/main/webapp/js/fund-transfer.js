@@ -5,8 +5,13 @@ $(function() {
     /*
      * auto hightlight text content on focus 
      */
-    $("#view-code-widget input, #view-code-widget textarea").on("focus", function(){
+    $("#view-code-widget input, #view-code-widget textarea").on("focus", function(e){
         $(this).select();
+        e.preventDefault();
+    });
+    //fix the issue on Safari
+    $("#view-code-widget input, #view-code-widget textarea").on("mouseup", function(e){
+	e.preventDefault();
     });
     
     /*
