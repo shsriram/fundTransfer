@@ -263,10 +263,10 @@ $(function() {
         });
         formValidator.form();
         
-        if ($(this).valid())  {
+     /*   if ($(this).valid())  {
             transferFund();
         }
-        return false;
+        return false;*/
         
         $.ajax({
             type: "GET",
