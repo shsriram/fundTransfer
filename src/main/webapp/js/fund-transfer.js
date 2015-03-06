@@ -533,7 +533,6 @@ var nextStep = function (targetObjectId) {
     $(".view-code-button-wrapper").removeClass("glow");
     
     //toggle the transfer fund form
-    console.log("toggleTransferFundForm");
     toggleTransferFundForm();
     
     //To fix mobile to desktop view problem
