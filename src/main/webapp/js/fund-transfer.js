@@ -1,7 +1,5 @@
 $(function() {
     
-    populateForm();
-    
     /*
      * auto hightlight text content on focus 
      */
@@ -263,16 +261,22 @@ $(function() {
                 }
             }
         });
+
+        formValidator.form();
         
-        $.ajax({
-            type: "GET",
-            url: "AdminConsoleServlet",
-            data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),	
-            cache: false,
-            success: function(responseText) {
-                $( "#update-credential-form" ).dialog( "close" );
-            }
-        });
+        if ($(this).valid())  {
+            $.ajax({
+                type: "GET",
+                url: "AdminConsoleServlet",
+                data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),	
+                cache: false,
+                success: function(responseText) {
+                    $( "#update-credential-form" ).dialog( "close" );
+                }
+            });
+        }else {
+            return false;
+        }
     });
 
     $("#clearAdmin").click(function() {    	
@@ -393,7 +397,6 @@ var transferFund = function () {
                 });
             }else{
                 $messageDiv.addClass("warning").show().html('Money Transfer Failed.');
-                document.getElementById("cbxShowHide").disabled=false;
                 $('#request').val('');
                 $('#response').val('');
                 $('#x-pay-token').val('');
