@@ -118,8 +118,9 @@ nav.navbar {
 }
 
 
-.jumbotron {
+.banner.jumbotron {
     padding-top: 0px;
+    padding-bottom: 38px;
     background-color: #015697;    
     margin-bottom: 0px;
 }
@@ -138,6 +139,7 @@ nav.navbar {
     font-weight: 100;
     color: #FFF;
     font-size: 28px;
+    margin-top: 10px;
 }
 
 .fund-transfer-steps .heading span {
@@ -322,7 +324,7 @@ label {
 
 .view-code-button-wrapper {
     border: 0px solid #000;
-    top: 560px;
+    top: 520px;
     position: fixed;
     left: 0;
     z-index: 500;
