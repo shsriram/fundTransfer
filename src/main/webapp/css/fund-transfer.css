@@ -140,11 +140,13 @@ nav.navbar {
     color: #FFF;
     font-size: 28px;
     margin-top: 10px;
+    margin-bottom: 2px;
 }
 
 .fund-transfer-steps .heading span {
     font-weight: 100;
     color: #69d9f5;
+    font-size: 28px;
 }
 
 .fund-transfer-steps .fa-stack.fa-lg{
@@ -344,8 +346,8 @@ label {
   from {
     box-shadow: 0 0 10px #fff,
                0 0 20px  #fff,
-               0 0 30px  #f9e437,
-               0 0 40px  #f9e437;
+               0 0 25px  #f9e437,
+               0 0 30px  #f9e437;
   }
   to {
     box-shadow: 0 0 5px #fff,
@@ -359,8 +361,8 @@ label {
   from {
     box-shadow: 0 0 10px #fff,
                0 0 20px  #fff,
-               0 0 30px  #f9e437,
-               0 0 40px  #f9e437;
+               0 0 25px  #f9e437,
+               0 0 30px  #f9e437
   }
   to {
     box-shadow: 0 0 5px #fff,
@@ -374,8 +376,8 @@ label {
   from {
     box-shadow: 0 0 10px #fff,
                0 0 20px  #fff,
-               0 0 30px  #f9e437,
-               0 0 40px  #f9e437;
+               0 0 25px  #f9e437,
+               0 0 30px  #f9e437
   }
   to {
     box-shadow: 0 0 5px #fff,
