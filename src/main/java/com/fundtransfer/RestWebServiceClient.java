@@ -33,6 +33,7 @@ public class RestWebServiceClient {
 		        .getFile());
 		System.setProperty("javax.net.ssl.trustStorePassword",
 		        "changeit");
+		
 		// Enter host, username, password if you are using proxy
 		/*
 		 * System.setProperty("https.proxyHost", (String)new

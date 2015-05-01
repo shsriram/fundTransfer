@@ -75,6 +75,7 @@ public class XpayTokenGenerator {
 		        + apiKey + payload;
 		String hash = sha256Digest(beforeHash);
 		String token = "x:" + timestamp + ":" + hash;
+		System.out.println("Token: "+token);
 		return token;
 	}
 }
