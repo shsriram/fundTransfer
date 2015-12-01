@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
 import com.fundtransfer.config.ConfigValues;
@@ -24,7 +25,8 @@ import com.fundtransfer.util.FundTransferUtility;
 
 public class OCTResponseServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
-
+	String apiKey = null;
+	String sharedSecret = null;
 	public OCTResponseServlet() {
 	}
 
@@ -40,11 +42,9 @@ public class OCTResponseServlet extends HttpServlet {
 		String endpoint = "";
 		String token = "";
 		String res = "";
-		// get apiKey
-		String apiKey = null;
 		HttpSession session = request.getSession();
-		// get sharedSecret
-		String sharedSecret = null;
+		
+		
 		apiKey = (String) session.getAttribute("apiKey");
 
 		if (apiKey == null) {
@@ -60,26 +60,22 @@ public class OCTResponseServlet extends HttpServlet {
 			payload = (String) new ConfigValues().getPropValues()
 			        .get("payloadOCT");
 			JSONObject jsonObject = new JSONObject(payload);
-			jsonObject.put("Amount", request.getParameter("amount"));
+			jsonObject.put("amount", request.getParameter("amount"));
 			senderPAN = (String) session.getAttribute("senderPAN");
 			recipientPAN = (String) session
 			        .getAttribute("recipientPAN");
 			if (senderPAN != null) {
-				jsonObject.put("SenderAccountNumber", senderPAN);
+				jsonObject.put("senderAccountNumber", senderPAN);
 			}
 			if (recipientPAN != null) {
-				jsonObject.put("RecipientCardPrimaryAccountNumber",
+				jsonObject.put("recipientPrimaryAccountNumber",
 				        recipientPAN);
 			}
 			RestWebServiceClient client = new RestWebServiceClient();
 			newpayload = jsonObject.toString();
 			endpoint = (String) new ConfigValues().getPropValues()
-			        .get("urlOCT") + "?apikey=" + apiKey;
-			token = new XpayTokenGenerator().generateXpaytoken(
-			        newpayload, (String) new ConfigValues()
-			                .getPropValues().get("pathOCT"), apiKey,
-			        sharedSecret);
-			res = client.getResponse(newpayload, endpoint, token);
+			        .get("urlOCT");// + "?apikey=" + apiKey;
+			res = client.getResponse(request,newpayload, endpoint, getBasicAuthenticationEncoding());
 			if (res.startsWith("{")) {
 				res = FundTransferUtility.convertToPrettyJsonstring(res);
 			}
@@ -98,5 +94,10 @@ public class OCTResponseServlet extends HttpServlet {
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
 	}
-
+	public String getBasicAuthenticationEncoding() {
+	      /*  String apikey = "PY54O8PERSPA3B5607LP21Jh7j4azMrBoqS5Jk0Dzj2T9a0oQ";
+			String password = "9eGUiSr9NNT5n8szsX8rWC8BwA395ziFXQd";*/
+	        String userPassword = apiKey + ":" + sharedSecret;
+	        return new String(Base64.encodeBase64(userPassword.getBytes()));
+	    }
 }

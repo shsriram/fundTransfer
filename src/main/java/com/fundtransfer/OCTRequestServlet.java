@@ -43,7 +43,7 @@ public class OCTRequestServlet extends HttpServlet {
 
 		try {
 			jsonObject = new JSONObject(payload);
-			jsonObject.put("Amount", request.getParameter("amount"));
+			jsonObject.put("amount", request.getParameter("amount"));
 			HttpSession session = request.getSession();
 			senderPAN = (String) session.getAttribute("senderPAN");
 			recipientPAN = (String) session

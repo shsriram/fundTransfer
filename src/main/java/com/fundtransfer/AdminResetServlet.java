@@ -1,5 +1,6 @@
 package com.fundtransfer;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -22,7 +23,7 @@ import com.fundtransfer.config.ConfigValues;
 @WebServlet("/AdminResetServlet")
 public class AdminResetServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+String certName;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -37,6 +38,8 @@ public class AdminResetServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("AdminResetServlet Start>>>");
+		String path = AdminConsoleServlet.getAbsolutePatOfFolder();
+		
 		HttpSession session = request.getSession();		
 		JSONObject outputJson = new JSONObject();
 		PrintWriter out = response.getWriter();
@@ -45,6 +48,10 @@ public class AdminResetServlet extends HttpServlet {
 				"sharedSecret");
 		session.setAttribute("apiKey", apiKey);
 		session.setAttribute("sharedSecret", sharedSecret);
+		session.setAttribute(certName, "password");
+		String filePath = TestServlet.getPath();
+		File fi = new File(filePath);
+		deleteDirectory(fi);
 		try {
 			outputJson.put("apiKey", apiKey);
 			outputJson.put("sharedSecret", sharedSecret);
@@ -63,5 +70,17 @@ public class AdminResetServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 	}
-
+	static public boolean deleteDirectory(File path) {
+	    if (path.exists()) {
+	        File[] files = path.listFiles();
+	        for (int i = 0; i < files.length; i++) {
+	            if (files[i].isDirectory()) {
+	                deleteDirectory(files[i]);
+	            } else {
+	                files[i].delete();
+	            }
+	        }
+	    }
+	    return (path.delete());
+	}
 }

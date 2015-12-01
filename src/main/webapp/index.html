@@ -32,23 +32,23 @@
         <span class="title">API Name: <span id="apiname" style="display: none" class="title"></span></span>
       
         <div class="offcanvas-content-wrapper">
-            <label for="api-key-2">API-KEY:</label>
+            <label for="api-key-2">User Name:</label>
             <input id="api-key-2" class="form-control" value="" />
             
-            <label for="shared-secret-2">Shared Secret:</label>
+            <label for="shared-secret-2">Password:</label>
             <input id="shared-secret-2" class="form-control" value="" />
             
             <label for="end-point-url">End Point URL:</label>
             <input id="end-point-url" class="form-control" value="" />
             
-            <label for="x-pay-token">X-Pay-Token:</label>
-            <input id="x-pay-token" class="form-control" value="" />
+           <!--  <label for="x-pay-token">X-Pay-Token:</label>
+            <input id="x-pay-token" class="form-control" value="" /> -->
             
-            <label for="request">Request:</label>
-            <textarea id="request" class="form-control"></textarea>
+            <label for="request-2">Request:</label>
+            <textarea id="request-2" class="form-control"></textarea>
             
-            <label for="response">Response</label>
-            <textarea id="response" class="form-control"></textarea>
+            <label for="response-2">Response</label>
+            <textarea id="response-2" class="form-control"></textarea>
             
             
             <div id="oct-div" style="display: none">
@@ -57,14 +57,14 @@
                 <label for="end-point-url-1">End Point URL:</label>
                 <input id="end-point-url-1" class="form-control"/>
 
-                <label for="x-pay-token-1">X-Pay-Token:</label>
-                <input id="x-pay-token-1" class="form-control" />
+             <!--    <label for="x-pay-token-1">X-Pay-Token:</label>
+                <input id="x-pay-token-1" class="form-control" /> -->
 
-                <label for="request-1">Request:</label>
-                <textarea id="request-1" class="form-control"></textarea>
+                <label for="request-3">Request:</label>
+                <textarea id="request-3" class="form-control"></textarea>
 
-                <label for="response-1">Response</label>
-                <textarea id="response-1" class="form-control"></textarea>
+                <label for="response-3">Response</label>
+                <textarea id="response-3" class="form-control"></textarea>
             </div>
         </div>
     </div>
@@ -282,26 +282,36 @@
     </footer>
 
     <!-- Modal -->
-    <div class="modal fade" id="update-credential-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="update-credential-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" >
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><i class="fa fa-times-circle fa-1x"></i></button>
                     <h4 class="modal-title" id="myModalLabel">Update Credentials</h4>
                 </div>
-                <form id="update-credential-form">
+                <form id="data" >
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="api-key" class="control-label">API-Key</label>
+                            <label for="api-key" class="control-label">User Name</label>
                             <input type="text" class="form-control" id="api-key" name="api_key">
                         </div>
                         <div class="form-group">
-                            <label for="share-secret" class="control-label">Shared Secret</label>
+                            <label for="share-secret" class="control-label">Password</label>
                             <input type="text" class="form-control" id="share-secret" name="share_secret">
+                        </div>
+                         <div class="form-group">
+                            <label for="upload-cert" class="control-label">Upload Certificate</label>
+                           <!--  <input type="hidden" class="form-control" id="share-secret" name="share_secret"> -->
+                           <!--  <input  type="file" enctype="multipart/form-data/> -->
+                             <input type="file" name="pic">
+                        </div>
+                         <div class="form-group">
+                            <label for="Cert-password" class="control-label">Certificate Password</label>
+                            <input type="text" class="form-control" id="cert-password" name="cert_password">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-default blue">Save changes</button><button type="button" class="btn btn-default grey reset-button" id="clearAdmin">Reset</button>
+                        <button type="submit" class="btn btn-default blue">Save changes</button><button type="submit" class="btn btn-default grey reset-button" id="clearAdmin">Reset</button>
                     </div>
                 </form>
             </div>

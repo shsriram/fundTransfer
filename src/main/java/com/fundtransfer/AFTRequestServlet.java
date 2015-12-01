@@ -52,11 +52,11 @@ public class AFTRequestServlet extends HttpServlet {
 
 		try {
 			jsonObject = new JSONObject(payload);
-			jsonObject.put("Amount", request.getParameter("amount"));
+			jsonObject.put("amount", request.getParameter("amount"));
 			session = request.getSession();
 			senderPAN = (String) session.getAttribute("senderPAN");
 			if (senderPAN != null) {
-				jsonObject.put("SenderPrimaryAccountNumber",
+				jsonObject.put("senderPrimaryAccountNumber",
 				        senderPAN);
 			}
 			jsonRequest = FundTransferUtility

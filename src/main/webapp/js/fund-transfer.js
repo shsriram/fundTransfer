@@ -44,7 +44,7 @@ $(function() {
     });
     
     $("#verify-sender-reset").on("click", function(){    	
-    	$("#sender_card_number").val('4957 0304 2021 0462');
+    	$("#sender_card_number").val('4957030420210462');
         $('#showMsg').hide();    
         $("#sender_card_number + .input-group-addon i").removeClass("fa-check fa-times");
         $("#sender-info-form").validate().form();
@@ -72,9 +72,9 @@ $(function() {
              cache: false,
              data: "accNo="+senderCardNum+"&recipientCardNumber="+receiverCardNum+"&amount="+transferAmount,		
              success: function(responseText) {
-                document.getElementById("sender-card-number-final").value = responseText.senderPAN;
+               /* document.getElementById("sender-card-number-final").value = responseText.senderPAN;
                 document.getElementById("receiver-card-final").value = responseText.recipientPAN;
-                document.getElementById("transfer_amount").value = responseText.amount;     			
+                document.getElementById("transfer_amount").value = responseText.amount;   */  			
              }
          });		
      });
@@ -224,7 +224,8 @@ $(function() {
         
     $("#updateCredential").click(function() {
     	var api_key = $("#api-key").val();
-    	var share_secret = $("#share-secret").val();    	
+    	var share_secret = $("#share-secret").val();   
+    	var cert_password = $("#cert-password").val();  
         $.ajax({
             type: "GET",
             url: "AdminConsoleReadServlet",
@@ -233,14 +234,15 @@ $(function() {
             success: function(responseText) {
                 document.getElementById("api-key").value = responseText.apiKey;
                 document.getElementById("share-secret").value = responseText.sharedSecret;
+                document.getElementById("cert-password").value = responseText.password;
             }
         });
     });	 
     
-    $("#update-credential-form").on("submit", function(){        
+    $("form#data").on("submit", function(){        
     	var api_key = $("#api-key").val();
     	var share_secret = $("#share-secret").val();
-        
+    	
         // Client side validation
         var formValidator = $(this).validate({
             errorElement: "span",
@@ -261,23 +263,54 @@ $(function() {
                 }
             }
         });
-
+       
         formValidator.form();
-        
+        var formData = new FormData($(this)[0]);
+       
         if ($(this).valid())  {
-            $.ajax({
-                type: "GET",
-                url: "AdminConsoleServlet",
-                data: "apiKey="+encodeURIComponent(api_key)+"&sharedSecret="+encodeURIComponent(share_secret),	
-                cache: false,
-                success: function(responseText) {
-                    $( "#update-credential-form" ).dialog( "close" );
-                }
-            });
+        	 $.ajax({
+        	        url: 'TestServlet',
+        	        type: 'POST',
+        	        data: formData,
+        	        async: false,
+        	        cache: false,
+        	        contentType: false,
+        	        processData: false,
+        	        success: function (returndata) {
+        	         // alert(returndata);
+        	          $( "form#data" ).dialog( "close" );
+        	        }
+        	      });
         }else {
             return false;
         }
     });
+    
+  /*//Program a custom submit function for the form
+    $("form#data").submit(function(event){
+    	
+      event.preventDefault();
+     
+      //grab all form data  
+      var formData = new FormData($(this)[0]);
+     
+      $.ajax({
+        url: 'TestServlet',
+        type: 'POST',
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (returndata) {
+         // alert(returndata);
+          $( "form#data" ).dialog( "close" );
+        }
+      });
+     
+      return false;
+    });
+  */
 
     $("#clearAdmin").click(function() {    	
         $.ajax({
@@ -287,6 +320,7 @@ $(function() {
             success: function(responseText) {
                 document.getElementById("api-key").value = responseText.apiKey;
                 document.getElementById("share-secret").value = responseText.sharedSecret;
+               
             }
     	}); 
     });	
@@ -333,8 +367,8 @@ var transferFund = function () {
     var $apiNameDiv = $('#apiname');
     var $octDiv = $('#oct-div');
     $apiNameDiv.show().html('Pull Money(AFT)');
-    $('#end-point-url').val("https://sandbox.api.visa.com/cva/cce/AccountFundingTransactions/");
-    $('#end-point-url-1').val("https://sandbox.api.visa.com/cva/cce/OriginalCreditTransactions/");
+    $('#end-point-url').val("https://sandbox.api.visa.com/visadirect/fundstransfer/v1/pullfundstransactions");
+    $('#end-point-url-1').val("https://sandbox.api.visa.com/visadirect/fundstransfer/v1/pushfundstransactions");
 
     $.ajax({
         type: "GET",
@@ -342,7 +376,7 @@ var transferFund = function () {
         data: "amount="+transferAmount,	
         cache: false,
         success: function(data) {
-            $('#request').html(data);
+            $('#request-2').html(data);
         }
     });
 
@@ -352,14 +386,13 @@ var transferFund = function () {
         data: "amount="+transferAmount,	
         cache: false,
         success: function(responseText) {
-            $('#x-pay-token').val(responseText.token);
-            $('#response').html(responseText.response); 	
+           
+            $('#response-2').html(responseText.response); 	
             $('#api-key-2').val(responseText.apiKey);
             $('#shared-secret-2').val(responseText.sharedSecret);
 
             parsedData =JSON.parse(responseText.response);						
-            actionCode = parsedData.ActionCode;						
-
+            actionCode = parsedData.actionCode;						
             if (actionCode=="00" || actionCode=="0") {	
                 $octDiv.show();
                 $.ajax({
@@ -368,7 +401,7 @@ var transferFund = function () {
                     data: "amount="+transferAmount,	
                     cache: false,
                     success: function(data1) {
-                        $('#request-1').html(data1);
+                        $('#request-3').html(data1);
                     }
                 });
 
@@ -378,11 +411,10 @@ var transferFund = function () {
                         data: "amount="+transferAmount,	
                         cache: false,
                         success: function(responseText1) {											
-                            $('#x-pay-token-1').val(responseText1.token);						
-                            $('#response-1').html(responseText1.response); 						
+                            $('#response-3').html(responseText1.response); 						
 
                             parsedData =JSON.parse(responseText1.response);						
-                            actionCode = parsedData.ActionCode;	
+                            actionCode = parsedData.actionCode;	
 
                             resetMessageBox($messageDiv);
 
@@ -419,13 +451,13 @@ var readOnlyTransferFundForm = function () {
 
 //Sender Card Number Verification
 var verifyCreditCardNumber = function (cardNumber, targetId) {
-    var responseRegExp = new RegExp("TransactionIdentifier");
+    var responseRegExp = new RegExp("transactionId");
     var $messageDiv = $('#showMsg');
     var $apiNameDiv = $('#apiname');
     cardNumber = cardNumber.replace(/ /g, "");
     $apiNameDiv.show().html('Account Verification');
     $('#oct-div').hide();
-    $('#end-point-url').val("https://sandbox.api.visa.com/cva/cce/AccountVerification/");
+    $('#end-point-url').val("https://sandbox.api.visa.com/pav/v1/cardvalidation");
 
     $.ajax({
         type: "GET",
@@ -433,7 +465,7 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
         data: "accNo="+cardNumber,	
         cache: false,
         success: function(data) {
-                $('#request').html(data);
+                $('#request-2').html(data);
         }
     });
 
@@ -444,7 +476,7 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
         cache: false,
         success: function(responseText) {
             $('#x-pay-token').val(responseText.token);
-            $('#response').html(responseText.response); 	
+            $('#response-2').html(responseText.response); 	
             $('#api-key-2').val(responseText.apiKey);
             $('#shared-secret-2').val(responseText.sharedSecret);
 
@@ -469,20 +501,20 @@ var verifyCreditCardNumber = function (cardNumber, targetId) {
 
 //Receiver Card Number Verification
 var verifyReceiverCardNumber = function (cardNumber, targetId) {	
-    var responseRegExp = new RegExp("CardProductTypeCode");
+    var responseRegExp = new RegExp("issuerName");
     var $messageDiv = $('#showMsg1');
     var $apiNameDiv = $('#apiname');	
     cardNumber = cardNumber.replace(/ /g, "");
     $apiNameDiv.show().html('Account Lookup');
     $('#oct-div').hide();
-    $('#end-point-url').val("https://sandbox.api.visa.com/cva/cce/AccountLookup/");
+    $('#end-point-url').val("https://sandbox.api.visa.com/paai/fundstransferattinq/v1/cardattributes/fundstransferinquiry");
     $.ajax({
         type: "GET",
         url: "AccountLookupRequestServlet",
         cache: false,
         data: "recipientCardNumber="+cardNumber,		
         success: function(data) {
-            $('#request').html(data);
+            $('#request-2').html(data);
         }
     });
 
@@ -492,8 +524,8 @@ var verifyReceiverCardNumber = function (cardNumber, targetId) {
         cache: false,
         data: "recipientCardNumber="+cardNumber,		
         success: function(responseText) {
-            $('#x-pay-token').val(responseText.token);
-            $('#response').html(responseText.response); 	
+           // $('#x-pay-token').val(responseText.token);
+            $('#response-2').html(responseText.response); 	
             $('#api-key-2').val(responseText.apiKey);
             $('#shared-secret-2').val(responseText.sharedSecret);
 
@@ -607,9 +639,9 @@ var populateForm = function () {
         url: "DefaultTransferServlet",
         cache: false,
         success: function(responseText) {        	
-            document.getElementById("sender-card-number-final").value = responseText.senderPAN;
+           /* document.getElementById("sender-card-number-final").value = responseText.senderPAN;
             document.getElementById("receiver-card-final").value = responseText.recipientPAN;
-            document.getElementById("transfer_amount").value = responseText.amount;     			
+            document.getElementById("transfer_amount").value = responseText.amount;     		*/	
         }
     });	    	
 }

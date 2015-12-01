@@ -11,10 +11,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
 import com.fundtransfer.config.ConfigValues;
-import com.fundtransfer.util.XpayTokenGenerator;
 import com.fundtransfer.util.FundTransferUtility;
 
 /**
@@ -25,7 +25,8 @@ import com.fundtransfer.util.FundTransferUtility;
 @WebServlet("/AccountlookupresponseServlet")
 public class AccountLookupResponseServlet extends HttpServlet {
 	private static final long	serialVersionUID	= 1L;
-
+	String apiKey = null;
+	String sharedSecret = null;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -48,9 +49,7 @@ public class AccountLookupResponseServlet extends HttpServlet {
 		String endpoint = "";
 		String res = "";
 		// get apiKey
-		String apiKey = null;
 		HttpSession session = request.getSession();
-		String sharedSecret = null;
 		apiKey = (String) session.getAttribute("apiKey");
 		if (apiKey == null) {
 			apiKey = (String) new ConfigValues().getPropValues().get(
@@ -65,18 +64,14 @@ public class AccountLookupResponseServlet extends HttpServlet {
 			payload = (String) new ConfigValues().getPropValues()
 			        .get("payloadACNL");
 			JSONObject jsonObject = new JSONObject(payload);
-			jsonObject.put("PrimaryAccountNumber",
+			jsonObject.put("primaryAccountNumber",
 			        request.getParameter("recipientCardNumber"));
 
 			RestWebServiceClient client = new RestWebServiceClient();
 			newpayload = jsonObject.toString(); // pay load After user input
 			endpoint = (String) new ConfigValues().getPropValues()
-			        .get("urlACNL") + "?apikey=" + apiKey;
-			token = new XpayTokenGenerator().generateXpaytoken(
-			        newpayload, (String) new ConfigValues()
-			                .getPropValues().get("pathACNL"), apiKey,
-			        sharedSecret);
-			res = client.getResponse(newpayload, endpoint, token);
+			        .get("urlACNL");
+			res = client.getResponse(request, newpayload, endpoint, getBasicAuthenticationEncoding());
 			if (res != null && res.contains("CardProductTypeCode")) {				
 				session.setAttribute("recipientPAN",
 				        request.getParameter("recipientCardNumber"));
@@ -89,7 +84,6 @@ public class AccountLookupResponseServlet extends HttpServlet {
 			JSONObject outputJson = new JSONObject();
 			PrintWriter out = response.getWriter();
 			outputJson.put("response", res);
-			outputJson.put("token", token);
 			outputJson.put("apiKey", apiKey);
 			outputJson.put("sharedSecret", sharedSecret);
 			response.setContentType("application/json");
@@ -109,5 +103,10 @@ public class AccountLookupResponseServlet extends HttpServlet {
 	        HttpServletResponse response) throws ServletException,
 	        IOException {
 	}
-
+	public String getBasicAuthenticationEncoding() {
+	      /*  String apikey = "PY54O8PERSPA3B5607LP21Jh7j4azMrBoqS5Jk0Dzj2T9a0oQ";
+			String password = "9eGUiSr9NNT5n8szsX8rWC8BwA395ziFXQd";*/
+	        String userPassword = apiKey + ":" + sharedSecret;
+	        return new String(Base64.encodeBase64(userPassword.getBytes()));
+	    }
 }

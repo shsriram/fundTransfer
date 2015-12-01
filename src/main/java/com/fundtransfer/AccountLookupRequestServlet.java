@@ -51,7 +51,7 @@ public class AccountLookupRequestServlet extends HttpServlet {
 
 		try {
 			jsonObject = new JSONObject(payload);
-			jsonObject.put("PrimaryAccountNumber",
+			jsonObject.put("primaryAccountNumber",
 			        request.getParameter("recipientCardNumber"));
 			jsonRequest = FundTransferUtility
 			        .convertToPrettyJsonstring(jsonObject.toString());

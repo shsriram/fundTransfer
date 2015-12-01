@@ -115,6 +115,14 @@
 		<servlet-name>TransferResetServlet</servlet-name>
 		<url-pattern>/TransferResetServlet/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>TestServlet</servlet-name>
+		<servlet-class>com.fundtransfer.TestServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestServlet</servlet-name>
+		<url-pattern>/TestServlet/*</url-pattern>
+	</servlet-mapping>
 	<!-- <filter>
 		<filter-name>BasicAuthFilter</filter-name>
 		<filter-class>com.fundtransfer.BasicAuthFilter</filter-class>

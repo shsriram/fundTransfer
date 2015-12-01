@@ -1,6 +1,7 @@
 package com.fundtransfer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 
 import javax.servlet.ServletException;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.codec.binary.Base64;
 import org.json.JSONObject;
 
 import com.fundtransfer.config.ConfigValues;
@@ -24,7 +26,8 @@ import com.fundtransfer.util.FundTransferUtility;
 @WebServlet("/AccountVerificationResponseServlet")
 public class AccountVerificationResponseServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	String apiKey = null;
+	String sharedSecret = null;
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -46,11 +49,10 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 		String res = "";
 		String pathACNV = "";
 		String token = "";
-		// get apiKey
-		String apiKey = null;
+		//String str = request.getServletContext().getResourceAsStream("/WEB-INF/classes/clientkeystore.jks").toString();
+		//System.out.println("AVRS : " +str);
 		HttpSession session = request.getSession();
-		// get sharedSecret
-		String sharedSecret = null;
+		
 		apiKey = (String) session.getAttribute("apiKey");
 		System.out.println("session apiKey:"+apiKey);
 		if (apiKey == null) {
@@ -63,18 +65,17 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 		}
 		try {
 			JSONObject jsonObject = new JSONObject(payload);
-			jsonObject.put("PrimaryAccountNumber",
+			jsonObject.put("primaryAccountNumber",
 					request.getParameter("accNo"));
 			RestWebServiceClient client = new RestWebServiceClient();
 			newpayload = jsonObject.toString();
 			endpoint = (String) new ConfigValues().getPropValues().get(
-					"urlACNV")
-					+ "?apikey=" + apiKey;
+					"urlACNV");//+ "?apikey=" + apiKey;
 			pathACNV = (String) new ConfigValues().getPropValues().get(
 					"pathACNV");
-			token = new XpayTokenGenerator().generateXpaytoken(newpayload,
-					pathACNV, apiKey, sharedSecret);
-			res = client.getResponse(newpayload, endpoint, token);
+			/*token = new XpayTokenGenerator().generateXpaytoken(newpayload,
+					pathACNV, apiKey, sharedSecret);*/
+			res = client.getResponse(request,newpayload, endpoint, getBasicAuthenticationEncoding());
 
 			if (res != null && res.contains("TransactionIdentifier")) {
 				session.setAttribute("senderPAN", request.getParameter("accNo"));
@@ -104,4 +105,10 @@ public class AccountVerificationResponseServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 	}
+	public String getBasicAuthenticationEncoding() {
+	      /*  String apikey = "PY54O8PERSPA3B5607LP21Jh7j4azMrBoqS5Jk0Dzj2T9a0oQ";
+			String password = "9eGUiSr9NNT5n8szsX8rWC8BwA395ziFXQd";*/
+	        String userPassword = apiKey + ":" + sharedSecret;
+	        return new String(Base64.encodeBase64(userPassword.getBytes()));
+	    }
 }
